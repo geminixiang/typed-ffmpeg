@@ -20,7 +20,7 @@ repos:
         exclude: "__snapshots__/"
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
-    rev: v0.9.5  # 請根據需求調整到你希望使用的版本
+    rev: v0.9.5
     hooks:
       - id: ruff
         args:

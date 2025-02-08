@@ -18,5 +18,6 @@ select = [
     "B006",    # flake8-bugbear: Do not use mutable data structures for argument defaults
     "C4",      # flake8-comprehensions
     "UP",      # pyupgrade
-    "TID252",  # Ban Relative Import https://docs.astral.sh/ruff/rules/relative-imports/#relative-imports-tid252
+    # "TID252",  # Ban Relative Import https://docs.astral.sh/ruff/rules/relative-imports/#relative-imports-tid252
 ]
+ignore = ["B008", "E501"]

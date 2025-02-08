@@ -38,4 +38,4 @@ def precompile() -> None:
             continue
 
         target_path.parent.mkdir(parents=True, exist_ok=True)
-        os.system(f"gcc -E -I. {file} > {target_path}") == 0
+        os.system(f"gcc -E -I. {file} > {target_path}")
