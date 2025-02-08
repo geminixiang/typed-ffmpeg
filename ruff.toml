@@ -1,10 +1,15 @@
 exclude = [
-    # Submodules.
-    "ffmpeg/",
     # ipynb
     "*.ipynb",
-    # unittest data
-    "**/__snapshots__/"
+    # directories
+    "**/__snapshots__/",
+    ".github/",
+    ".mypy_cache/",
+    ".ruff_cache/",
+    ".venv/",
+    "venv/",
+    # Submodules.
+    "ffmpeg/",
 ]
 
 [lint]
