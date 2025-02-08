@@ -1,0 +1,22 @@
+exclude = [
+    # Submodules.
+    "ffmpeg/",
+    # ipynb
+    "*.ipynb",
+    # unittest data
+    "**/__snapshots__/"
+]
+
+[lint]
+preview = true
+select = [
+    "E",       # pycodestyle errors
+    "W",       # pycodestyle warnings
+    "F",       # pyflakes
+    "I",       # isort
+    "B",       # flake8-bugbear
+    "B006",    # flake8-bugbear: Do not use mutable data structures for argument defaults
+    "C4",      # flake8-comprehensions
+    "UP",      # pyupgrade
+    "TID252",  # Ban Relative Import https://docs.astral.sh/ruff/rules/relative-imports/#relative-imports-tid252
+]
