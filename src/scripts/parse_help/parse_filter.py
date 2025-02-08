@@ -25,7 +25,9 @@ def extract_filter_help_text(filter_name: str) -> str:
     """
 
     result = subprocess.run(
-        ["ffmpeg", "-h", f"filter={filter_name}", "-hide_banner"], stdout=subprocess.PIPE, text=True
+        ["ffmpeg", "-h", f"filter={filter_name}", "-hide_banner"],
+        stdout=subprocess.PIPE,
+        text=True,
     )
     return result.stdout
 
@@ -107,9 +109,11 @@ def _parse_default(default: str | None, type: str) -> int | float | bool | str |
         default = default.strip('"')
 
     try:
-        match (type):
+        match type:
             case "boolean":
-                assert default in ("true", "false"), f"Invalid default value for boolean: {default}"
+                assert default in ("true", "false"), (
+                    f"Invalid default value for boolean: {default}"
+                )
                 return default == "true"
             case "duration":
                 assert default is not None
@@ -208,18 +212,26 @@ def _parse_choices(lines: list[str]) -> list[FFMpegFilterOptionChoice]:
     """
     output: list[FFMpegFilterOptionChoice] = []
     for line in lines:
-        match: list[tuple[str, str, str, str]] = re.findall(r"([\w]+)\s+([\s\-\w]+)\s+([\w\.]{11})(\s+.*)?", line)
+        match: list[tuple[str, str, str, str]] = re.findall(
+            r"([\w]+)\s+([\s\-\w]+)\s+([\w\.]{11})(\s+.*)?", line
+        )
         assert match
         name, value, flags, help = match[0]
         if not value.strip():
             value = name
 
-        output.append(FFMpegFilterOptionChoice(name=name, help=help.strip(), value=value.strip(), flags=flags.strip()))
+        output.append(
+            FFMpegFilterOptionChoice(
+                name=name, help=help.strip(), value=value.strip(), flags=flags.strip()
+            )
+        )
 
     return output
 
 
-def _parse_options(lines: list[str], tree: dict[str, list[str]]) -> list[FFMpegFilterOption]:
+def _parse_options(
+    lines: list[str], tree: dict[str, list[str]]
+) -> list[FFMpegFilterOption]:
     """
     Parse the options for a filter.
 
@@ -308,7 +320,7 @@ def extract_avfilter_info_from_help(filter_name: str) -> FFMpegFilter:
         input_types = []
         if inputs[0] != "none (source filter)":
             for _input in inputs:
-                index, name, _type = _parse_io(_input)
+                _index, name, _type = _parse_io(_input)
                 input_types.append(FFMpegIOType(name=name, type=_type))
     else:
         input_types = None
@@ -317,12 +329,15 @@ def extract_avfilter_info_from_help(filter_name: str) -> FFMpegFilter:
         output_types = []
         if outputs[0] != "none (sink filter)":
             for output in outputs:
-                index, name, _type = _parse_io(output)
+                _index, name, _type = _parse_io(output)
                 output_types.append(FFMpegIOType(name=name, type=_type))
     else:
         output_types = None
 
-    is_suppoert_timeline = tree[""][-1] == "This filter has support for timeline through the 'enable' option."
+    is_suppoert_timeline = (
+        tree[""][-1]
+        == "This filter has support for timeline through the 'enable' option."
+    )
     is_support_framesync = "framesync AVOptions:" in tree
 
     options = []
@@ -332,7 +347,11 @@ def extract_avfilter_info_from_help(filter_name: str) -> FFMpegFilter:
 
     if is_suppoert_timeline:
         options.append(
-            FFMpegFilterOption(name="enable", description="timeline editing", type=FFMpegFilterOptionType.string)
+            FFMpegFilterOption(
+                name="enable",
+                description="timeline editing",
+                type=FFMpegFilterOptionType.string,
+            )
         )
 
     return FFMpegFilter(

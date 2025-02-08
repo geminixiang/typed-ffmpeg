@@ -19,7 +19,7 @@ def is_dag(graph: dict[str, set[str]]) -> bool:
         Whether the graph is a DAG.
     """
 
-    in_degree = {u: 0 for u in graph}  # Initialize in-degree of each node to 0
+    in_degree = dict.fromkeys(graph, 0)  # Initialize in-degree of each node to 0
 
     # Calculate in-degree of each node
     for u in graph:
